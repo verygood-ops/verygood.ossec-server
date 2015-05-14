@@ -30,7 +30,6 @@ ossec_global_white_lists:
 ossec_remote_connection: secure
 ossec_remote_port: 1514
 ossec_remote_protocol: udp
-ossec_remote_local_ip: 0.0.0.0
 
 ossec_alerts_log_alert_level: 1
 ossec_alerts_email_alert_level: 7
