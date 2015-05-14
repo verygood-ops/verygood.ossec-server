@@ -1,2 +1,18 @@
 ---
 # tasks file for verygood.ossec-server
+- apt_key: >
+    url=http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
+
+- apt_repository: >
+    repo='deb http://ossec.wazuh.com/repos/apt/ubuntu/ {{ansible_distribution_release}} main'
+    state=present
+
+- apt: >
+    name=ossec-hids
+  notify: restart-ossec
+
+- template: >
+    src=ossec.conf
+    dest=/var/ossec/etc/ossec.conf
+    owner=root
+    group=ossec
