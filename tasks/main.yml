@@ -1,8 +1,8 @@
 ---
 - apt_key:
-    url=http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
     # If you need to change the key use at least gpg --keyid-format long keyfile
     # the 32-bit short format is easily collided and insecure.
+    url=http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
     id=14B9C8DB9A1B1C65
 
 - apt_repository:
@@ -18,3 +18,4 @@
     dest=/var/ossec/etc/ossec.conf
     owner=root
     group=ossec
+
