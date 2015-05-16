@@ -19,3 +19,25 @@
     owner=root
     group=ossec
 
+# In the version *after* current 2.8.1 authd can verify the certificate from the client.
+# The current version of ossec-auth has the certificate is mandatory (but useless).
+# If you need to be sure only approved clients can connect and authenticate themselves use firewall settings.
+# After 2.8.1 the certificate will need to be generated outside this role where it can be passed to the clients
+# as a real secret.
+- name: Generate self-signed cert
+  command: openssl req -new -newkey rsa:4096 -days 10000 -nodes -subj "/" -x509 -keyout /var/ossec/etc/sslmanager.key -out /var/ossec/etc/sslmanager.cert
+  args:
+    creates: /var/ossec/etc/sslmanager.cert
+
+- copy:
+    src=ossec-authd
+    dest=/etc/init.d
+    force=yes
+    mode=0755
+  register: ossec_authd_service
+
+- service:
+    name=ossec-authd
+    state=restarted
+    enabled=yes
+  when: ossec_authd_service.changed
