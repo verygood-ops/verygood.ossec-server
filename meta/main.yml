@@ -5,6 +5,7 @@ galaxy_info:
   company: Verygood
   license: BSD
   min_ansible_version: 1.8
+  platforms:
   - name: Ubuntu
     versions:
     - trusty
