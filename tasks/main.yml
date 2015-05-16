@@ -29,15 +29,41 @@
   args:
     creates: /var/ossec/etc/sslmanager.cert
 
-- copy:
+- name: Copy init.d for authd
+  copy:
     src=ossec-authd
     dest=/etc/init.d
-    force=yes
     mode=0755
   register: ossec_authd_service
 
-- service:
+- name: Autostart authd
+  service:
     name=ossec-authd
     state=restarted
     enabled=yes
   when: ossec_authd_service.changed
+
+# OSSEC doesn't provide a init.d for serverd, nor lets you add it to the other jobs.
+- name: Copy init.d for remoted
+  copy:
+    src=ossec-remoted
+    dest=/etc/init.d
+    mode=0755
+  register: ossec_serverd_service
+
+# ossec-remoted won't run unless there's a record for a client.
+# We will add a record that allows connections from 127.0.0.1
+- name: Add keepalive client.keys
+  copy:
+    src=client.keys
+    dest=/var/ossec/etc
+    owner=root
+    group=ossec
+    mode=440
+
+- name: Autostart remoted
+  service:
+    name=ossec-remoted
+    state=restarted
+    enabled=yes
+  when: ossec_serverd_service.changed
