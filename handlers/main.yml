@@ -1,2 +1,7 @@
 ---
 # handlers file for verygood.ossec-server
+- name: restart ossec-server
+  service:
+    name=ossec
+    state=restarted
+    enabled=yes

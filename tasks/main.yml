@@ -1,2 +1,69 @@
 ---
-# tasks file for verygood.ossec-server
+- apt_key:
+    # If you need to change the key use at least gpg --keyid-format long keyfile
+    # the 32-bit short format is easily collided and insecure.
+    url=http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
+    id=14B9C8DB9A1B1C65
+
+- apt_repository:
+    repo='deb http://ossec.wazuh.com/repos/apt/ubuntu/ {{ansible_distribution_release}} main'
+    state=present
+
+- apt:
+    name=ossec-hids
+  notify: restart ossec-server
+
+- template:
+    src=ossec.conf
+    dest=/var/ossec/etc/ossec.conf
+    owner=root
+    group=ossec
+
+# In the version *after* current 2.8.1 authd can verify the certificate from the client.
+# The current version of ossec-auth has the certificate is mandatory (but useless).
+# If you need to be sure only approved clients can connect and authenticate themselves use firewall settings.
+# After 2.8.1 the certificate will need to be generated outside this role where it can be passed to the clients
+# as a real secret.
+- name: Generate self-signed cert
+  command: openssl req -new -newkey rsa:4096 -days 10000 -nodes -subj "/" -x509 -keyout /var/ossec/etc/sslmanager.key -out /var/ossec/etc/sslmanager.cert
+  args:
+    creates: /var/ossec/etc/sslmanager.cert
+
+- name: Copy init.d for authd
+  copy:
+    src=ossec-authd
+    dest=/etc/init.d
+    mode=0755
+  register: ossec_authd_service
+
+- name: Autostart authd
+  service:
+    name=ossec-authd
+    state=restarted
+    enabled=yes
+  when: ossec_authd_service.changed
+
+# OSSEC doesn't provide a init.d for serverd, nor lets you add it to the other jobs.
+- name: Copy init.d for remoted
+  copy:
+    src=ossec-remoted
+    dest=/etc/init.d
+    mode=0755
+  register: ossec_serverd_service
+
+# ossec-remoted won't run unless there's a record for a client.
+# We will add a record that allows connections from 127.0.0.1
+- name: Add keepalive client.keys
+  copy:
+    src=client.keys
+    dest=/var/ossec/etc
+    owner=root
+    group=ossec
+    mode=440
+
+- name: Autostart remoted
+  service:
+    name=ossec-remoted
+    state=restarted
+    enabled=yes
+  when: ossec_serverd_service.changed
