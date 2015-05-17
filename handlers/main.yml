@@ -1,7 +1,10 @@
 ---
-# handlers file for verygood.ossec-server
-- name: restart ossec-server
+- name: restart ossec
   service:
-    name=ossec
+    name={{ item }}
     state=restarted
     enabled=yes
+  with_items:
+    - ossec
+    - ossec-remoted
+    - ossec-authd
