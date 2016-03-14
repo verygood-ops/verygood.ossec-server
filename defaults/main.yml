@@ -11,14 +11,24 @@ ossec_syscheck_directories:
 
 ossec_syscheck_ignore_directories:
   - /etc/mtab
+  - /etc/mnttab
   - /etc/hosts.deny
   - /etc/mail/statistics
   - /etc/random-seed
   - /etc/adjtime
   - /etc/httpd/logs
+  - /etc/utmpx
+  - /etc/cups/certs
+  - /etc/dumpdates
+  - /etc/svc/volatile
 
 ossec_rootcheck_rootkit_files: /var/ossec/etc/shared/rootkit_files.txt
 ossec_rootcheck_rootkit_trojans: /var/ossec/etc/shared/rootkit_trojans.txt
+ossec_rootcheck_system_audit:
+  - /var/ossec/etc/shared/system_audit_rcl.txt
+  - /var/ossec/etc/shared/cis_debian_linux_rcl.txt
+  - /var/ossec/etc/shared/cis_rhel_linux_rcl.txt
+  - /var/ossec/etc/shared/cis_rhel5_linux_rcl.txt
 
 ossec_global_white_lists:
   - 127.0.0.1
@@ -26,10 +36,6 @@ ossec_global_white_lists:
   - 192.168.2.190
   - 192.168.2.32
   - 192.168.2.10
-
-ossec_remote_connection: secure
-ossec_remote_port: 1514
-ossec_remote_protocol: udp
 
 ossec_alerts_log_alert_level: 1
 ossec_alerts_email_alert_level: 7
@@ -47,6 +53,10 @@ ossec_commands:
     executable: disable-account.sh
     expect: user
     timeout_allowed: yes
+  - name: route-null 
+    executable: route-null.sh
+    expect: srcip
+    timeout_allowed: yes
 
 ossec_active_responses:
   - command: host-deny
@@ -60,19 +70,23 @@ ossec_active_responses:
 
 ossec_localfile:
   - log_format: syslog
-    location: /var/log/messages
+    location: /var/log/auth.log
   - log_format: syslog
-    location: /var/log/authlog
+    location: /var/log/syslog
   - log_format: syslog
-    location: /var/log/secure
-  - log_format: syslog
-    location: /var/log/xferlog
-  - log_format: syslog
-    location: /var/log/maillog
-  - log_format: apache
-    location: /var/www/logs/access_log
-  - log_format: apache
-    location: /var/www/logs/error_log
+    location: /var/log/dpkg.log
+
+ossec_local_commands:
+  - log_format: command
+    command: "df -h"
+  - log_format: full_command
+    command: "netstat -tan |grep LISTEN |grep -v 127.0.0.1 | sort"
+  - log_format: full_command
+    command: "last -n 5"
+
+ossec_decoders:
+  - etc/ossec_decoders
+  - etc/wazuh_decoders
 
 ossec_rules:
   - rules_config.xml
@@ -108,6 +122,7 @@ ossec_rules:
   - ids_rules.xml
   - squid_rules.xml
   - firewall_rules.xml
+  - apparmor_rules.xml
   - cisco-ios_rules.xml
   - netscreenfw_rules.xml
   - sonicwall_rules.xml
@@ -131,4 +146,9 @@ ossec_rules:
   - asterisk_rules.xml
   - ossec_rules.xml
   - attack_rules.xml
+  - openbsd_rules.xml
+  - clam_av_rules.xml
+  - dropbear_rules.xml
+  - sysmon_rules.xml
+  - auditd_rules.xml
   - local_rules.xml

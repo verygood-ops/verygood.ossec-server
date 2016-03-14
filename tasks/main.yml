@@ -23,6 +23,12 @@
     group=ossec
     mode=440
 
+- template:
+    src=ossec.conf
+    dest=/var/ossec/etc/ossec.conf
+    owner=root
+    group=ossec
+
 - name: Copy init.d for authd
   copy:
     src=ossec-authd

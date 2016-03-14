@@ -1,7 +1,7 @@
 Role Name
 =========
 
-This roles setup a OSSEC Server
+This roles setup a OSSEC-wazuh server
 
 Requirements
 ------------
@@ -54,14 +54,6 @@ ossec_global_white_lists:
   - 127.0.0.1
 ```
 
-Remote
-```yml
-ossec_remote_connection: secure
-ossec_remote_port: 1514
-ossec_remote_protocol: udp
-ossec_remote_local_ip: 0.0.0.0
-```
-
 Alerts
 
 ```yml
@@ -102,7 +94,7 @@ Example Playbook
     - hosts: servers
       vars:
         ossec_email_from: foo@example.org
-        ossec_email_ro: you@example.org
+        ossec_email_to: you@example.org
       roles:
          - verygood.ossec-server
 
@@ -110,4 +102,3 @@ License
 -------
 
 BSD
-
