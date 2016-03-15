@@ -1,6 +1,13 @@
 ---
-- name: clone ossec-wazuh git repo
-  shell: cd /opt && rm -rf ossec-wazuh && git clone https://github.com/wazuh/ossec-wazuh
+- name: remove ossec-wazuh if exists
+  file:
+    path=/opt/ossec-wazuh
+    state=absent
+
+- name: clone git repo
+  git:
+    repo=https://github.com/wazuh/ossec-wazuh
+    dest=/opt/ossec-wazuh
 
 - name: copy preloaded var file
   template:
