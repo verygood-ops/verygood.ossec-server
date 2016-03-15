@@ -98,6 +98,15 @@ Example Playbook
       roles:
          - verygood.ossec-server
 
+FAQ
+----------------
+
+Official FAQ: http://ossec.github.io/docs/faq/index.html
+
+Q: ossec-syscheckd(1210): ERROR: Queue '/var/ossec/queue/ossec/queue' not accessible: 'Connection refused'.
+A: check that agent has ben registered on the server, see contents of `/var/ossec/etc/client.keys` on agent and server, latest field is a key, it  should be the same
+
+
 License
 -------
 
