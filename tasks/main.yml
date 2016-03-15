@@ -7,6 +7,8 @@
 - name: clone git repo
   git:
     repo=https://github.com/wazuh/ossec-wazuh
+    version=5441889d963ce6d8ee3fae0e9f273e701b6c89eb
+    depth=1
     dest=/opt/ossec-wazuh
 
 - name: copy preloaded var file
