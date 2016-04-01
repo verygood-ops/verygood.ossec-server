@@ -1,48 +1,26 @@
 ---
-- apt_key:
-    # If you need to change the key use at least gpg --keyid-format long keyfile
-    # the 32-bit short format is easily collided and insecure.
-    url=http://ossec.wazuh.com/repos/apt/conf/ossec-key.gpg.key
-    id=14B9C8DB9A1B1C65
+- name: remove ossec-wazuh if exists
+  file:
+    path=/opt/ossec-wazuh
+    state=absent
 
-- apt_repository:
-    repo='deb http://ossec.wazuh.com/repos/apt/ubuntu/ {{ansible_distribution_release}} main'
-    state=present
+- name: clone git repo
+  git:
+    repo=https://github.com/wazuh/ossec-wazuh
+    version=5441889d963ce6d8ee3fae0e9f273e701b6c89eb
+    depth=1
+    dest=/opt/ossec-wazuh
 
-- apt: name=ossec-hids
-  notify: restart ossec
+- name: copy preloaded var file
+  template:
+    src=install-preloaded-vars.conf
+    dest=/opt/ossec-wazuh/etc/preloaded-vars.conf
 
-- template:
-    src=ossec.conf
-    dest=/var/ossec/etc/ossec.conf
-    owner=root
-    group=ossec
-  notify: restart ossec
+- name: install ossec-wazuh
+  shell: cd /opt/ossec-wazuh && ./install.sh
 
-# In the version *after* current 2.8.1 authd can verify the certificate from the client.
-# The current version of ossec-auth has the certificate is mandatory (but useless).
-# If you need to be sure only approved clients can connect and authenticate themselves use firewall settings.
-# After 2.8.1 the certificate will need to be generated outside this role where it can be passed to the clients
-# as a real secret.
 - name: Generate self-signed cert
   command: openssl req -new -newkey rsa:4096 -days 10000 -nodes -subj "/" -x509 -keyout /var/ossec/etc/sslmanager.key -out /var/ossec/etc/sslmanager.cert
-  args:
-    creates: /var/ossec/etc/sslmanager.cert
-
-- name: Copy init.d for authd
-  copy:
-    src=ossec-authd
-    dest=/etc/init.d
-    mode=0755
-  notify: restart ossec
-
-# OSSEC doesn't provide a init.d for serverd, nor lets you add it to the other jobs.
-- name: Copy init.d for remoted
-  copy:
-    src=ossec-remoted
-    dest=/etc/init.d
-    mode=0755
-  notify: restart ossec
 
 # ossec-remoted won't run unless there's a record for a client.
 # We will add a record that allows connections from 127.0.0.1
@@ -53,3 +31,40 @@
     owner=root
     group=ossec
     mode=440
+
+- template:
+    src=ossec.conf
+    dest=/var/ossec/etc/ossec.conf
+    owner=root
+    group=ossec
+
+- name: Copy init.d for authd
+  copy:
+    src=ossec-authd
+    dest=/etc/init.d
+    mode=0755
+  register: ossec_authd_service
+
+- name: Autostart authd
+  service:
+    name=ossec-authd
+    state=restarted
+    enabled=yes
+  when: ossec_authd_service.changed
+
+- name: Copy init.d for remoted
+  copy:
+    src=ossec-remoted
+    dest=/etc/init.d
+    mode=0755
+  register: ossec_serverd_service
+
+- name: Autostart remoted
+  service:
+    name=ossec-remoted
+    state=restarted
+    enabled=yes
+  when: ossec_serverd_service.changed
+ 
+- name: restart ossec server
+  command: /var/ossec/bin/ossec-control restart

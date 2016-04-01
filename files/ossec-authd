@@ -26,7 +26,7 @@ case $1 in
    fi
   fi
   log_daemon_msg "Starting the process" "$NAME"
-  if start-stop-daemon --start --quiet --oknodo --background --make-pidfile $PIDFILE --pidfile $PIDFILE --exec $DAEMON; then
+  if start-stop-daemon --start --quiet --oknodo --background --make-pidfile $PIDFILE --pidfile $PIDFILE --exec $DAEMON -- -n; then
    log_end_msg 0
   else
    log_end_msg 1
