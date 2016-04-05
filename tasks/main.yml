@@ -4,12 +4,14 @@
     path=/opt/ossec-wazuh
     state=absent
 
-- name: clone git repo
-  git:
-    repo=https://github.com/wazuh/ossec-wazuh
-    version=5441889d963ce6d8ee3fae0e9f273e701b6c89eb
-    depth=1
-    dest=/opt/ossec-wazuh
+- name: get ossec-wazuh package
+  get_url: url="{{ ossec_url }}/v{{ ossec_version }}.tar.gz" dest=/opt/ossec-wazuh.tar.gz
+
+- name: unarchive ossec-wazuh package
+  unarchive: src=/opt/ossec-wazuh.tar.gz dest=/opt/
+
+- name: move directory
+  command: mv /opt/ossec-wazuh-"{{ ossec_version }}" /opt/ossec-wazuh
 
 - name: copy preloaded var file
   template:

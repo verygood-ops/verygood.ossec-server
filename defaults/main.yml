@@ -3,6 +3,9 @@ ossec_smtp_server: localhost
 ossec_email_from: ossecm@localhost
 ossec_syscheck_frequency: 72000
 
+ossec_url: https://github.com/wazuh/ossec-wazuh/archive
+ossec_version: 1.0.4
+
 ossec_syscheck_directories:
   - check_all: yes
     directories: /etc,/usr/bin,/usr/sbin
