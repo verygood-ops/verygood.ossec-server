@@ -1,16 +1,17 @@
-Role Name
-=========
+# Ansible OSSEC-wazuh Role
 
-This roles setup a OSSEC-wazuh server
+[![Circle CI](
+https://circleci.com/gh/verygood-ops/verygood.ossec-server.svg?style=svg&circle-token=8c207b4afdec670199a2d76139cdb793729f60bf
+)](https://circleci.com/gh/verygood-ops/verygood.ossec-server)
 
-Requirements
-------------
+An Ansible Role that installs [OSSEC-wazuh](https://github.com/wazuh/ossec-wazuh)
+
+## Requirements
 
 This role will work on Ubuntu. OSSEC doesn't do SMTP auth of any kind
 so if you want email alerts you should add local SMTP like sendmail.
 
-Role Variables
---------------
+## Role Variables
 
 The role uses the Ubuntu package defaults. The below all the options with their defaults as examples, but list items are truncated. Please view `defaults/main.yml` for a full list.
 
@@ -88,7 +89,7 @@ ossec_localfile:
     location: /var/log/messages
 ```
 
-Example Playbook
+## Example Playbook
 ----------------
 
     - hosts: servers
@@ -98,8 +99,7 @@ Example Playbook
       roles:
          - verygood.ossec-server
 
-FAQ
-----------------
+## FAQ
 
 Official FAQ: http://ossec.github.io/docs/faq/index.html
 
@@ -107,7 +107,6 @@ Q: ossec-syscheckd(1210): ERROR: Queue '/var/ossec/queue/ossec/queue' not access
 A: check that agent has ben registered on the server, see contents of `/var/ossec/etc/client.keys` on agent and server, latest field is a key, it  should be the same
 
 
-License
--------
+## License
 
 BSD
