@@ -1,0 +1,6 @@
+---
+
+- hosts: test_runners
+  become: yes
+  roles:
+    - { role: verygood.ossec-server }
