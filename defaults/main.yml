@@ -25,6 +25,8 @@ ossec_syscheck_ignore_directories:
   - /etc/cups/certs
   - /etc/dumpdates
   - /etc/svc/volatile
+  - /dev/.blkid.tab
+  - /dev/.blkid.tab.old
 
 ossec_rootcheck_rootkit_files: /var/ossec/etc/shared/rootkit_files.txt
 ossec_rootcheck_rootkit_trojans: /var/ossec/etc/shared/rootkit_trojans.txt
