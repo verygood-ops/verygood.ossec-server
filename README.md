@@ -1,8 +1,6 @@
 # Ansible OSSEC-wazuh Role
 
-[![Circle CI](
-https://circleci.com/gh/verygood-ops/verygood.ossec-server.svg?style=svg&circle-token=8c207b4afdec670199a2d76139cdb793729f60bf
-)](https://circleci.com/gh/verygood-ops/verygood.ossec-server)
+[![Circle CI](https://circleci.com/gh/verygood-ops/verygood.ossec-server.svg?style=svg)](https://circleci.com/gh/verygood-ops/verygood.ossec-server)
 
 An Ansible Role that installs [OSSEC-wazuh](https://github.com/wazuh/ossec-wazuh)
 
