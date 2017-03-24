@@ -61,6 +61,14 @@ ossec_commands:
     executable: route-null.sh
     expect: srcip
     timeout_allowed: yes
+  - name: restart-ossec
+    executable: restart-ossec.sh
+    expect: ''
+    timeout_allowed: yes
+  - name: ossec-slack
+    executable: ossec-slack.sh
+    expect: ''
+    timeout_allowed: no
 
 ossec_active_responses:
   - command: host-deny
@@ -71,6 +79,14 @@ ossec_active_responses:
     location: local
     level: 6
     timeout: 600
+  - command: ossec-slack
+    location: local
+    level: 3
+
+# ossec -> slack notification section
+ossec_slack_user: ''
+ossec_slack_channel: ''
+ossec_slack_webhook: ''
 
 ossec_localfile:
   - log_format: syslog
