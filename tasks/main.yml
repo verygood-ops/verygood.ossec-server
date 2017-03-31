@@ -11,7 +11,7 @@
   unarchive: src=/opt/ossec-wazuh.tar.gz dest=/opt/
 
 - name: move directory
-  command: mv /opt/ossec-wazuh-"{{ ossec_version }}" /opt/ossec-wazuh
+  command: mv /opt/wazuh-"{{ ossec_version }}" /opt/ossec-wazuh
 
 - name: copy preloaded var file
   template:
