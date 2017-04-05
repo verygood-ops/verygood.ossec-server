@@ -67,6 +67,30 @@
     state=restarted
     enabled=yes
   when: ossec_serverd_service.changed
+
+- name: check file
+  stat: path=/var/ossec/active-response/bin/ossec-slack.sh
+  register: ossec_slack_script
+
+- name: change SLACKUSER configuration
+  lineinfile:
+    path: /var/ossec/active-response/bin/ossec-slack.sh
+    regexp: '^SLACKUSER'
+    line: 'SLACKUSER="{{ossec_slack_user}}"'
+  when: ossec_slack_script.stat.exists == True
+
+- name: change CHANNEL configuration
+  lineinfile:
+    path: /var/ossec/active-response/bin/ossec-slack.sh
+    regexp: '^CHANNEL'
+    line: 'CHANNEL="{{ossec_slack_channel}}"'
+  when: ossec_slack_script.stat.exists == True
+
+- name: change SITE configuration
+  lineinfile:
+    path: /var/ossec/active-response/bin/ossec-slack.sh
+    regexp: '^SITE'
+    line: 'SITE="{{ossec_slack_webhook}}"'
  
 - name: restart ossec server
   command: /var/ossec/bin/ossec-control restart
