@@ -2,13 +2,13 @@
 ossec_smtp_server: localhost
 ossec_email_from: ossecm@localhost
 ossec_email_to: ossecm@localhost
-ossec_syscheck_frequency: 72000
+ossec_syscheck_frequency: 43200
 
 ossec_email_enable_notifications: "no"
 ossec_slack_enable_notifications: false
 
-ossec_url: https://github.com/wazuh/ossec-wazuh/archive
-ossec_version: 1.0.4
+ossec_url: https://github.com/wazuh/wazuh/archive
+ossec_version: 2.0
 
 ossec_syscheck_directories:
   - check_all: yes
@@ -22,9 +22,11 @@ ossec_syscheck_ignore_directories:
   - /etc/hosts.deny
   - /etc/mail/statistics
   - /etc/random-seed
+  - /etc/random.seed
   - /etc/adjtime
   - /etc/httpd/logs
   - /etc/utmpx
+  - /etc/wtmpx
   - /etc/cups/certs
   - /etc/dumpdates
   - /etc/svc/volatile
@@ -33,20 +35,16 @@ ossec_rootcheck_rootkit_files: /var/ossec/etc/shared/rootkit_files.txt
 ossec_rootcheck_rootkit_trojans: /var/ossec/etc/shared/rootkit_trojans.txt
 ossec_rootcheck_system_audit:
   - /var/ossec/etc/shared/system_audit_rcl.txt
+  - /var/ossec/etc/shared/system_audit_ssh.txt
   - /var/ossec/etc/shared/cis_debian_linux_rcl.txt
   - /var/ossec/etc/shared/cis_rhel_linux_rcl.txt
   - /var/ossec/etc/shared/cis_rhel5_linux_rcl.txt
 
 ossec_global_white_lists:
   - 127.0.0.1
-  - 192.168.2.1
-  - 192.168.2.190
-  - 192.168.2.32
-  - 192.168.2.10
 
-ossec_alerts_log_alert_level: 1
-ossec_alerts_email_alert_level: 7
-ossec_alerts_slack_alert_level: 7
+ossec_alerts_log_alert_level: 3
+ossec_alerts_email_alert_level: 12
 
 ossec_commands:
   - name: host-deny
@@ -91,6 +89,10 @@ ossec_localfile:
   - log_format: syslog
     location: /var/log/syslog
   - log_format: syslog
+    location: /var/ossec/logs/active-responses.log
+  - log_format: syslog
+    location: /var/log/messages
+  - log_format: syslog
     location: /var/log/dpkg.log
 
 ossec_local_commands:
@@ -100,72 +102,3 @@ ossec_local_commands:
     command: "netstat -tan |grep LISTEN |grep -v 127.0.0.1 | sort"
   - log_format: full_command
     command: "last -n 5"
-
-ossec_decoders:
-  - etc/ossec_decoders
-  - etc/wazuh_decoders
-
-ossec_rules:
-  - rules_config.xml
-  - pam_rules.xml
-  - sshd_rules.xml
-  - telnetd_rules.xml
-  - syslog_rules.xml
-  - arpwatch_rules.xml
-  - symantec-av_rules.xml
-  - symantec-ws_rules.xml
-  - pix_rules.xml
-  - named_rules.xml
-  - smbd_rules.xml
-  - vsftpd_rules.xml
-  - pure-ftpd_rules.xml
-  - proftpd_rules.xml
-  - ms_ftpd_rules.xml
-  - ftpd_rules.xml
-  - hordeimp_rules.xml
-  - roundcube_rules.xml
-  - wordpress_rules.xml
-  - cimserver_rules.xml
-  - vpopmail_rules.xml
-  - vmpop3d_rules.xml
-  - courier_rules.xml
-  - web_rules.xml
-  - web_appsec_rules.xml
-  - apache_rules.xml
-  - nginx_rules.xml
-  - php_rules.xml
-  - mysql_rules.xml
-  - postgresql_rules.xml
-  - ids_rules.xml
-  - squid_rules.xml
-  - firewall_rules.xml
-  - apparmor_rules.xml
-  - cisco-ios_rules.xml
-  - netscreenfw_rules.xml
-  - sonicwall_rules.xml
-  - postfix_rules.xml
-  - sendmail_rules.xml
-  - imapd_rules.xml
-  - mailscanner_rules.xml
-  - dovecot_rules.xml
-  - ms-exchange_rules.xml
-  - racoon_rules.xml
-  - vpn_concentrator_rules.xml
-  - spamd_rules.xml
-  - msauth_rules.xml
-  - mcafee_av_rules.xml
-  - trend-osce_rules.xml
-  - ms-se_rules.xml
-  - zeus_rules.xml
-  - solaris_bsm_rules.xml
-  - vmware_rules.xml
-  - ms_dhcp_rules.xml
-  - asterisk_rules.xml
-  - ossec_rules.xml
-  - attack_rules.xml
-  - openbsd_rules.xml
-  - clam_av_rules.xml
-  - dropbear_rules.xml
-  - sysmon_rules.xml
-  - auditd_rules.xml
-  - local_rules.xml
