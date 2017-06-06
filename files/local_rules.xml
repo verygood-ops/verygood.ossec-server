@@ -1,0 +1,27 @@
+<!-- Ansible managed! -->
+<!-- Overrides built-in rules (git@github.com:wazuh/wazuh-ruleset.git) -->
+<!-- https://documentation.wazuh.com/current/user-manual/ruleset/custom.html#changing-an-existing-rule -->
+
+<group name="ossec,pam,">
+  <rule id="510" level="7" overwrite="yes" noalert="1">
+    <if_sid>509</if_sid>
+    <description>Host-based anomaly detection event (rootcheck).</description>
+    <group>rootcheck,</group>
+   <!-- <if_fts />  -->
+  </rule>
+
+  <rule id="516" level="3" overwrite="yes" noalert="1">
+    <if_sid>510</if_sid>
+    <match>^System Audit</match>
+    <description>System Audit event.</description>
+    <group>rootcheck,</group>
+  </rule>
+
+  <rule id="5502" level="3" overwrite="yes" noalert="1">
+    <if_sid>5500</if_sid>
+    <match>session closed for user </match>
+    <description>PAM: Login session closed.</description>
+    <group>pci_dss_10.2.5,</group>
+  </rule>
+
+</group>
