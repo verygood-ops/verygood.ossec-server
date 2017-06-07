@@ -3,9 +3,10 @@
 <!-- https://documentation.wazuh.com/current/user-manual/ruleset/custom.html#changing-an-existing-rule -->
 
 <group name="ossec,pam,">
-  <rule id="510" level="7" overwrite="yes" noalert="1">
+  <rule id="510" level="7" overwrite="yes">
     <if_sid>509</if_sid>
     <description>Host-based anomaly detection event (rootcheck).</description>
+    <regex>^(?!.*/dev/\.blkid\.tab).*$</regex>
     <group>rootcheck,</group>
    <!-- <if_fts />  -->
   </rule>
@@ -23,5 +24,4 @@
     <description>PAM: Login session closed.</description>
     <group>pci_dss_10.2.5,</group>
   </rule>
-
 </group>
