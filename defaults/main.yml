@@ -81,7 +81,7 @@ ossec_active_responses:
     timeout: 600
   - command: ossec-slack
     location: local
-    level: 3
+    level: 7
 
 # ossec -> slack notification section
 ossec_slack_user: ''
