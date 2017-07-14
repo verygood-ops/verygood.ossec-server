@@ -4,6 +4,9 @@ ossec_email_from: ossecm@localhost
 ossec_email_to: ossecm@localhost
 ossec_syscheck_frequency: 72000
 
+ossec_email_enable_notifications: no
+ossec_slack_enable_notifications: false
+
 ossec_url: https://github.com/wazuh/ossec-wazuh/archive
 ossec_version: 1.0.4
 
@@ -43,6 +46,7 @@ ossec_global_white_lists:
 
 ossec_alerts_log_alert_level: 1
 ossec_alerts_email_alert_level: 7
+ossec_alerts_slack_alert_level: 7
 
 ossec_commands:
   - name: host-deny
@@ -57,7 +61,7 @@ ossec_commands:
     executable: disable-account.sh
     expect: user
     timeout_allowed: yes
-  - name: route-null 
+  - name: route-null
     executable: route-null.sh
     expect: srcip
     timeout_allowed: yes
@@ -65,10 +69,6 @@ ossec_commands:
     executable: restart-ossec.sh
     expect: ''
     timeout_allowed: yes
-  - name: ossec-slack
-    executable: ossec-slack.sh
-    expect: ''
-    timeout_allowed: no
 
 ossec_active_responses:
   - command: host-deny
@@ -79,9 +79,6 @@ ossec_active_responses:
     location: local
     level: 6
     timeout: 600
-  - command: ossec-slack
-    location: local
-    level: 7
 
 # ossec -> slack notification section
 ossec_slack_user: ''
