@@ -40,6 +40,14 @@
     owner=root
     group=ossec
 
+- name: Override some of the wazuh rules
+  copy:
+    src=local_rules.xml
+    dest=/var/ossec/etc/rules/local_rules.xml
+    owner=root
+    group=ossec
+    mode=640
+
 - name: Copy init.d for authd
   copy:
     src=ossec-authd
