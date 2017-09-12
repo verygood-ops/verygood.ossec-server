@@ -43,6 +43,8 @@
 
 - name: enable auth
   command: /var/ossec/bin/ossec-control enable auth
+  notify:
+    - restart wazuh-manager
 
 # - name: check file
 #   stat: path=/var/ossec/active-response/bin/ossec-slack.sh
@@ -75,6 +77,3 @@
 #   when:
 #     - ossec_slack_enable_notifications
 #     - ossec_slack_script.stat.exists == True
-
-- name: restart wazuh-manager
-  notify: restart wazuh-manager
