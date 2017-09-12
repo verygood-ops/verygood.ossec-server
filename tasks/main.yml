@@ -34,7 +34,8 @@
     group=ossec
     mode=440
 
-- template:
+- name: copy ossec.conf
+  template:
     src=ossec.conf
     dest=/var/ossec/etc/ossec.conf
     owner=root
