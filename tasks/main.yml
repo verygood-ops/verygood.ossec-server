@@ -1,5 +1,5 @@
 ---
-- name: remove ossec-wazuh if exists
+- name: remove ossec-wazuh opt forlder if exists
   file:
     path=/opt/ossec-wazuh
     state=absent
@@ -45,6 +45,11 @@
   command: /var/ossec/bin/ossec-control enable auth
   notify:
     - restart wazuh-manager
+
+- name: add update ruleset cronjob
+  cron:
+    job: cd /var/ossec/bin && ./update_ruleset.py -r
+    special_time: weekly
 
 # - name: check file
 #   stat: path=/var/ossec/active-response/bin/ossec-slack.sh
