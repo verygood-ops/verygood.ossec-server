@@ -1,10 +1,6 @@
 ---
-- name: restart ossec
+- name: restart wazuh-manager
   service:
-    name={{ item }}
+    name=wazuh-manager
     state=restarted
     enabled=yes
-  with_items:
-    - ossec
-    - ossec-remoted
-    - ossec-authd
