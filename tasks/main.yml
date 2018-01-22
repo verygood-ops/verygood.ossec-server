@@ -48,6 +48,7 @@
 
 - name: add update ruleset cronjob
   cron:
+    name: OSSEC Ruleset Update
     job: cd /var/ossec/bin && ./update_ruleset.py -r
     special_time: "{{ ossec_ruleset_update_period }}"
   when: "{{ ossec_allow_ruleset_update }}"
