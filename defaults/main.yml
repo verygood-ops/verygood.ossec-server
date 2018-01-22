@@ -102,3 +102,6 @@ ossec_local_commands:
     command: "netstat -tan |grep LISTEN |grep -v 127.0.0.1 | sort"
   - log_format: full_command
     command: "last -n 5"
+
+ossec_allow_ruleset_update: true
+ossec_ruleset_update_period: weekly

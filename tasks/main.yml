@@ -49,7 +49,8 @@
 - name: add update ruleset cronjob
   cron:
     job: cd /var/ossec/bin && ./update_ruleset.py -r
-    special_time: weekly
+    special_time: "{{ ossec_ruleset_update_period }}"
+  when: "{{ ossec_allow_ruleset_update }}"
 
 # - name: check file
 #   stat: path=/var/ossec/active-response/bin/ossec-slack.sh
