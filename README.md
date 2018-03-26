@@ -4,6 +4,14 @@
 
 An Ansible Role that installs [OSSEC-wazuh](https://github.com/wazuh/ossec-wazuh)
 
+## Molecule
+
+molecule default directories structure can be created with commands:
+```
+molecule init scenario --scenario-name default --role-name verygood.ossec-server
+molecule init role --role-name verygood.ossec-server
+```
+
 ## Requirements
 
 This role will work on Ubuntu. OSSEC doesn't do SMTP auth of any kind
