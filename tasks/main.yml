@@ -1,5 +1,5 @@
 ---
-- name: remove ossec-wazuh opt folder if exists
+- name: remove ossec-wazuh folder if exists
   file:
     path=/opt/ossec-wazuh
     state=absent

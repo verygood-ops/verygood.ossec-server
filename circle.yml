@@ -8,9 +8,12 @@ machine:
 
 dependencies:
   pre:
-    - pip install docker
+    - pip install docker-py
     - pip install molecule
+    - pip install ansible==2.2
 
 test:
   override:
+    - molecule init scenario --scenario-name default --role-name verygood.ossec-server
+    - molecule init role --role-name verygood.ossec-server
     - molecule test
