@@ -1,4 +1,10 @@
 ---
+- name: install required packages
+  apt: '{{item}}'
+  update_cache: yes
+  with_items:
+    - build-essential
+
 - name: remove ossec-wazuh folder if exists
   file:
     path=/opt/ossec-wazuh
@@ -8,7 +14,7 @@
   get_url: url="{{ ossec_url }}/v{{ ossec_version }}.tar.gz" dest=/opt/ossec-wazuh.tar.gz
 
 - name: unarchive ossec-wazuh package
-  unarchive: src=/opt/ossec-wazuh.tar.gz dest=/opt/
+  unarchive: src=/opt/ossec-wazuh.tar.gz dest=/opt/ remote_src=yes
 
   # Wazuh hardcoded version into folder name
 - name: move directory
