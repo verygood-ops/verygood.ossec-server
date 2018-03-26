@@ -12,7 +12,7 @@
 
   # Wazuh hardcoded version into folder name
 - name: move directory
-  command: mv /opt/wazuh-2.1.0/ /opt/ossec-wazuh
+  command: mv /opt/wazuh-"{{ossec_version}}" /opt/ossec-wazuh
 
 - name: copy preloaded var file
   template:
