@@ -1,14 +1,18 @@
 ---
+
 machine:
   python:
-    version: 2.7.5
-  environment:
-    AWS_DEFAULT_REGION: us-west-2
+    version: 2.7.10
+  services:
+    - docker
+
 dependencies:
-  override:
-    - pip install setuptools --upgrade
-    - pip install ansible==2.2.0
-test:
-  override:
-    - ansible-playbook -i tests/hosts -c local tests/all.yml --syntax-check
-    - ansible-playbook -i tests/hosts -c local tests/all.yml
+  pre:
+    - pip install docker
+    - pip install molecule
+
+deployment:
+  prod:
+    branch: master
+    commands:
+      - molecule test
