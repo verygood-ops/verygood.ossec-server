@@ -6,7 +6,7 @@ machine:
     AWS_DEFAULT_REGION: us-west-2
 dependencies:
   override:
-    - pip install ansible
+    - pip install ansible==2.2.0
     - pip install setuptools --upgrade
 test:
   override:
