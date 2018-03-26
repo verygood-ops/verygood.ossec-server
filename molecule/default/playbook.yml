@@ -1,0 +1,10 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: verygood.ossec-server
+  vars:
+    ansible_default_ipv4:
+      network: 127.0.0.1
+    # tmp hack, cron module not working via molecule
+    ossec_allow_ruleset_update: false

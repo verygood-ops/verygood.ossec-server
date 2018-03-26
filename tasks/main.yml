@@ -1,5 +1,10 @@
 ---
-- name: remove ossec-wazuh opt folder if exists
+- name: install required packages
+  apt:
+    name: build-essential
+    update_cache: yes
+
+- name: remove ossec-wazuh folder if exists
   file:
     path=/opt/ossec-wazuh
     state=absent
@@ -8,7 +13,7 @@
   get_url: url="{{ ossec_url }}/v{{ ossec_version }}.tar.gz" dest=/opt/ossec-wazuh.tar.gz
 
 - name: unarchive ossec-wazuh package
-  unarchive: src=/opt/ossec-wazuh.tar.gz dest=/opt/
+  unarchive: src=/opt/ossec-wazuh.tar.gz dest=/opt/ remote_src=yes
 
   # Wazuh hardcoded version into folder name
 - name: move directory
@@ -52,36 +57,4 @@
     name: OSSEC Ruleset Update
     job: cd /var/ossec/bin && ./update_ruleset.py -r
     special_time: "{{ ossec_ruleset_update_period }}"
-  when: "{{ ossec_allow_ruleset_update }}"
-
-# - name: check file
-#   stat: path=/var/ossec/active-response/bin/ossec-slack.sh
-#   register: ossec_slack_script
-#   when: ossec_slack_enable_notifications
-
-# - name: change SLACKUSER configuration
-#   lineinfile:
-#     destfile: /var/ossec/active-response/bin/ossec-slack.sh
-#     regexp: '^SLACKUSER'
-#     line: 'SLACKUSER="{{ossec_slack_user}}"'
-#   when:
-#     - ossec_slack_enable_notifications
-#     - ossec_slack_script.stat.exists == True
-
-# - name: change CHANNEL configuration
-#   lineinfile:
-#     destfile: /var/ossec/active-response/bin/ossec-slack.sh
-#     regexp: '^CHANNEL'
-#     line: 'CHANNEL="{{ossec_slack_channel}}"'
-#   when:
-#     - ossec_slack_enable_notifications
-#     - ossec_slack_script.stat.exists == True
-
-# - name: change SITE configuration
-#   lineinfile:
-#     destfile: /var/ossec/active-response/bin/ossec-slack.sh
-#     regexp: '^SITE'
-#     line: 'SITE="{{ossec_slack_webhook}}"'
-#   when:
-#     - ossec_slack_enable_notifications
-#     - ossec_slack_script.stat.exists == True
+  when: ossec_allow_ruleset_update

@@ -1,0 +1,4 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+molecule/default/.pytest_cache/
+molecule/default/tests/__pycache__/
