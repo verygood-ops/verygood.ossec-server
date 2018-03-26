@@ -14,4 +14,4 @@ dependencies:
 
 test:
   override:
-    - molecule test
+    - molecule syntax 
