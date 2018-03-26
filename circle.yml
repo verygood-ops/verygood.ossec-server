@@ -11,8 +11,6 @@ dependencies:
     - pip install docker
     - pip install molecule
 
-deployment:
-  prod:
-    branch: master
-    commands:
-      - molecule test
+test:
+  override:
+    - molecule test
