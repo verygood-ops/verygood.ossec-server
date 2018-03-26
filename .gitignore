@@ -2,4 +2,3 @@
 .idea
 molecule/default/.pytest_cache/
 molecule/default/tests/__pycache__/
-molecule/default/.molecule/
