@@ -14,5 +14,6 @@ dependencies:
 
 test:
   override:
+    - molecule init scenario --scenario-name default --role-name verygood.ossec-server
+    - molecule init role --role-name verygood.ossec-server
     - molecule test
-
