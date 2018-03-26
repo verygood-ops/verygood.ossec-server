@@ -41,10 +41,16 @@
     owner=root
     group=ossec
 
+- name: copy ossec init.d
+  template:
+    src=/var/ossec/etc/init.d/ossec
+    dest=/etc/init.d/ossec-server
+    owner=root
+
 - name: enable auth
-  command: /var/ossec/bin/ossec-control enable auth
+  shell: /var/ossec/bin/ossec-control enable auth
   notify:
-    - restart wazuh-manager
+    - restart ossec-server
 
 - name: add update ruleset cronjob
   cron:

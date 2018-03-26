@@ -1,6 +1,6 @@
 ---
-- name: restart wazuh-manager
+- name: restart ossec-server
   service:
-    name=wazuh-manager
+    name=ossec-server
     state=restarted
     enabled=yes
