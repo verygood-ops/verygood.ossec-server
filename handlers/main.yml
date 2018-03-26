@@ -1,6 +1,6 @@
 ---
-- name: restart ossec-control
+- name: restart ossec-server
   service:
-    name=ossec-control
+    name=ossec-server
     state=restarted
     enabled=yes
