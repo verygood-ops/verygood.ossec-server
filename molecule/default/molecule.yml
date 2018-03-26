@@ -8,13 +8,13 @@ lint:
 platforms:
   - name: instance
     image: ubuntu:16.04
-    #privileged: true
+    privileged: true
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
-    options:
-      x: ANSIBLE0013
+#    options:
+#      x: ANSIBLE0013
 verifier:
   name: testinfra
   options:
