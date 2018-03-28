@@ -4,7 +4,7 @@
   when: not ossec_install_from_sources
 
 - include: install-from-sources.yml
-  when: install_from_sources
+  when: ossec_install_from_sources
 
 - name: Generate self-signed cert
   command: openssl req -new -newkey rsa:4096 -days 10000 -nodes -subj "/" -x509 -keyout /var/ossec/etc/sslmanager.key -out /var/ossec/etc/sslmanager.cert
