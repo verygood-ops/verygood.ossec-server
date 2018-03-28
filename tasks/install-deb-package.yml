@@ -1,0 +1,19 @@
+---
+- name: install required packages
+  apt:
+    name: '{{ item }}'
+  with_items:
+    - curl
+    - apt-transport-https
+    - lsb-release
+
+- name: add key
+  shell: curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH | apt-key add -
+
+- name: add repo
+  shell: echo "deb https://packages.wazuh.com/3.x/apt/ stable main" | tee -a /etc/apt/sources.list.d/wazuh.list
+
+- name: install wazuh-manager
+  apt:
+    name: wazuh-manager
+    update_cache: yes

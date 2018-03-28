@@ -8,7 +8,7 @@ ossec_email_enable_notifications: "no"
 ossec_slack_enable_notifications: false
 
 ossec_url: https://github.com/wazuh/wazuh/archive
-ossec_version: 3.2.1 
+ossec_version: 3.2.1
 
 ossec_syscheck_directories:
   - check_all: yes
@@ -105,3 +105,5 @@ ossec_local_commands:
 
 ossec_allow_ruleset_update: true
 ossec_ruleset_update_period: weekly
+
+ossec_install_from_sources: false

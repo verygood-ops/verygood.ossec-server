@@ -1,26 +1,10 @@
 ---
-- name: remove ossec-wazuh opt folder if exists
-  file:
-    path=/opt/ossec-wazuh
-    state=absent
 
-- name: get ossec-wazuh package
-  get_url: url="{{ ossec_url }}/v{{ ossec_version }}.tar.gz" dest=/opt/ossec-wazuh.tar.gz
+- include: install-deb-package.yml
+  when: not ossec_install_from_sources
 
-- name: unarchive ossec-wazuh package
-  unarchive: src=/opt/ossec-wazuh.tar.gz dest=/opt/
-
-  # Wazuh hardcoded version into folder name
-- name: move directory
-  command: mv /opt/wazuh-"{{ossec_version}}" /opt/ossec-wazuh
-
-- name: copy preloaded var file
-  template:
-    src=install-preloaded-vars.conf
-    dest=/opt/ossec-wazuh/etc/preloaded-vars.conf
-
-- name: install ossec-wazuh
-  shell: cd /opt/ossec-wazuh && ./install.sh
+- include: install-from-sources.yml
+  when: install_from_sources
 
 - name: Generate self-signed cert
   command: openssl req -new -newkey rsa:4096 -days 10000 -nodes -subj "/" -x509 -keyout /var/ossec/etc/sslmanager.key -out /var/ossec/etc/sslmanager.cert
@@ -45,7 +29,7 @@
 - name: enable auth
   shell: /var/ossec/bin/ossec-control enable auth
   notify:
-    - restart wazuh-manager 
+    - restart wazuh-manager
 
 - name: add update ruleset cronjob
   cron:
