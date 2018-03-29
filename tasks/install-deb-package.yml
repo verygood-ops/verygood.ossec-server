@@ -17,5 +17,5 @@
 
 - name: install wazuh-manager
   apt:
-    name: wazuh-manager='{{ ossec_version }}'
+    name: wazuh-manager
     update_cache: yes
