@@ -1,2 +1,5 @@
 .idea
 molecule
+Gemfile.lock
+.kitchen
+tests/.kitchen
