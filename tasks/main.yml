@@ -1,5 +1,12 @@
 ---
 
+- name: Install necessary dependencies
+  pip:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - netaddr==0.7.19
+
 - include: install-deb-package.yml
   when: not ossec_install_from_sources
 
