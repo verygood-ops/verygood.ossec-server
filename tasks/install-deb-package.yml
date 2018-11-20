@@ -15,7 +15,8 @@
   apt_repository:
     repo: deb https://packages.wazuh.com/3.x/apt/ stable main
 
+  # installing specific version via ansible apt module not working for ansible 2.2
 - name: install wazuh-manager
-  apt:
-    name: wazuh-manager
-    update_cache: yes
+  shell: |
+    apt-get update
+    apt-get install wazuh-manager="{{apt_ossec_version}}"
