@@ -9,6 +9,7 @@ ossec_slack_enable_notifications: false
 
 ossec_url: https://github.com/wazuh/wazuh/archive
 ossec_version: 3.2.1
+apt_ossec_version: "3.2.1-1"
 
 ossec_syscheck_directories:
   - check_all: yes
@@ -42,6 +43,7 @@ ossec_rootcheck_system_audit:
 
 ossec_global_white_lists:
   - 127.0.0.1
+  - "{{ ansible_default_ipv4.network | ipsubnet(16,0) }}"
 
 ossec_alerts_log_alert_level: 3
 ossec_alerts_email_alert_level: 12
