@@ -19,4 +19,4 @@
 - name: install wazuh-manager
   shell: |
     apt-get update
-    apt-get install wazuh-manager="{{apt_ossec_version}}"
+    apt-get install -y wazuh-manager="{{apt_ossec_version}}"
