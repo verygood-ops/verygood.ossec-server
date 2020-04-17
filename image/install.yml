@@ -2,21 +2,11 @@
 - hosts: local
   become: yes
   vars:
-    aws_region: "{{ lookup('env','REGION') }}"
-    env: "{{ lookup('env','ENV_TAG') }}" # {{infra_env}}.{{env_type}}
     dns_resolver: "{{ ansible_dns.nameservers | join (',') }}"
-    ossec_server: "ossec.{{aws_region}}.{{env}}.verygood.systems"
     # OSSEC can't authenticate with an SMTP server, so don't think about using anything other than local SMTP.
     ossec_syscheck_frequency: 3600 # one hour
     ossec_email_to: security-alerts+ossec-dev@vgs.io
     ossec_email_from: security-alerts+ossec-dev@vgs.io
-#    ossec_localfile:
-#      - log_format: syslog
-#        location: /var/log/syslog
-#      - log_format: syslog
-#        location: /var/log/messages
-#      - log_format: syslog
-#        location: /var/log/auth.log
     monit_ossec_rules:
       - "if does not exist for 3 cycles then restart"
       - "if changed pid for 3 cycles then alert"
@@ -90,15 +80,6 @@
 
     - name: reload ossec
       shell: /var/ossec/bin/ossec-control reload
-
-#     pattern: "ossec-{{instance_id}}.{{zone_name}}"
-#    - route53:
-#        command: create
-#        zone: "{{ vgg_dns_services.zone_name }}"
-#        record: "ossec-{{ansible_ec2_instance_id}}.{{ vgg_dns_services.zone_name }}"
-#        type: A
-#        ttl: 300
-#        value: "{{ ansible_default_ipv4.address }}"
 
     - name: Copy ossec-server agents cleanup script
       template:
