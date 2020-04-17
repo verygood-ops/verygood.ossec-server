@@ -1,0 +1,91 @@
+{{ ansible_managed }}
+<group name="syslog,">
+    <!--
+      Mar  8 04:30:59 ip-10-6-2-57 suricata[9713]: {"timestamp":"2016-03-08T04:30:59.718012+0000","flow_id":139884807967088,"in_iface":"eth0","event_type":"dns","src_ip":"10.6.0.2","src_port":53,"dest_ip":"10.6.2.57","dest_port":42597,"proto":"
+      UDP","dns":{"type":"answer","id":63846,"rcode":"NOERROR","rrname":"newrelic.com","rrtype":"SOA","ttl":60}}
+    //-->
+    <rule id="64000" level="0">
+        <if_sid>1002</if_sid>
+        <options>no_email_alert</options>
+        <match>NOERROR</match>
+        <description>Ignore suricata NOERROR</description>
+    </rule>
+</group>
+<group name="syscheck,">
+    <!--
+    Make ossec to not fire alerts on logrotates
+    //-->
+    <rule id="65000" level="0">
+        <if_sid>550</if_sid>
+        <category>ossec</category>
+        <decoded_as>syscheck_integrity_changed</decoded_as>
+        <match>logrotate</match>
+        <options>no_email_alert</options>
+        <description>No email alerts for Integrity checksum changed for logrotate.</description>
+    </rule>
+</group>
+<group name="rootcheck,">
+    <!--
+    File '/dev/.blkid.tab' present on /dev. Possible hidden file.
+    //-->
+    <rule id="66000" level="0">
+        <if_sid>510</if_sid>
+        <options>no_email_alert</options>
+        <match>/dev/.blkid.tab</match>
+        <description>Ignore /dev/.blkid.tab</description>
+    </rule>
+    <!--
+    File '/var/log/cfn-wire.log' is owned by root and has written permissions to anyone.
+    //-->
+    <rule id="66010" level="0">
+        <if_sid>510</if_sid>
+        <options>no_email_alert</options>
+        <match>/var/log/cfn-wire.log</match>
+        <description>Ignore /var/log/cfn-wire.log</description>
+    </rule>
+    <!--
+    File '/var/log/cfn-hup.log' is owned by root and has written permissions to anyone.
+    //-->
+    <rule id="66020" level="0">
+        <if_sid>510</if_sid>
+        <options>no_email_alert</options>
+        <match>/var/log/cfn-hup.log</match>
+        <description>Ignore /var/log/cfn-hup.log</description>
+    </rule>
+    <!--
+    File '/var/lib/cfn-hup/data/metadata_db' is owned by root and has written permissions to anyone.
+    //-->
+    <rule id="66030" level="0">
+        <if_sid>510</if_sid>
+        <options>no_email_alert</options>
+        <match>/var/lib/cfn-hup/data/metadata_db</match>
+        <description>Ignore /var/lib/cfn-hup/data/metadata_db</description>
+    </rule>
+    <!--
+    File '/usr/local/lib/python2.7/dist-packages/awscli-1.10.10-py2.7.egg*' is owned by root and has written permissions to anyone.
+    //-->
+    <rule id="66040" level="0">
+        <if_sid>510</if_sid>
+        <options>no_email_alert</options>
+        <match>/usr/local/lib/python2.7/dist-packages/awscli</match>
+        <description>Ignore python awscli dist package</description>
+    </rule>
+    <!--
+    File '/dev/.mount/utab' present on /dev. Possible hidden file.
+    //-->
+    <rule id="66050" level="0">
+        <if_sid>510</if_sid>
+        <options>no_email_alert</options>
+        <match>/dev/.mount/utab</match>
+        <description>Ignore /dev/.mount/utab</description>
+    </rule>
+    <!--
+    File '/var/lib/cfn-hup/data/commands_run.json' permissions
+    //-->
+    <rule id="66060" level="0">
+        <if_sid>510</if_sid>
+        <options>no_email_alert</options>
+        <match>/var/lib/cfn-hup/data/commands_run.json</match>
+        <description>Ignore File '/var/lib/cfn-hup/data/commands_run.json' permissions</description>
+    </rule>
+</group>
