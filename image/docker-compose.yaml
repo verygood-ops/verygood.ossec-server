@@ -15,8 +15,5 @@ services:
       - LOG_LEVEL=INFO
       - ANSIBLE_ENABLE_TASK_DEBUGGER=True
     working_dir: /opt/ansible/
-    #volumes:
-    #  - "../tests:/opt/ansible/tests:rw"
-    #  - "../../../verygood.ossec-server:/opt/ansible/tests/verygood.ossec-server:ro"
     entrypoint:
       - ./entry.bash

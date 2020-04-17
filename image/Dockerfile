@@ -17,13 +17,11 @@ WORKDIR /opt/ansible
 COPY . ./
 COPY vgs_rules.xml.j2 verygood.ossec-server/templates/vgs_rules.xml.j2
 
-# Expose ports for sharing
 EXPOSE 1514/udp 1515/tcp
 
 RUN chmod 755 ./entry.bash
 
 RUN ansible-playbook -i inventory -c local install.yml -vv
-    # ln -sf /dev/stdout /var/ossec/logs/alerts/alerts.json
 
 ENTRYPOINT ["./entry.bash"]
 

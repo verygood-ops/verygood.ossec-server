@@ -7,8 +7,9 @@ SERVICE=$(grep -A1 "services:" docker-compose.yaml|tail -n1|awk '{print $1}'|cut
 
 rm -rf verygood.ossec-server
 git clone git@github.com:verygood-ops/verygood.ossec-server.git verygood.ossec-server
+cp -f ../templates/vgs_rules.xml.j2 ./
 
-if [ $BUILD != "" ]
+if [[ -n $BUILD ]]
 then
     REGION=$REGION ENV_TAG=$ENV_TAG docker-compose -f docker-compose.yaml up --build
     stat=$?

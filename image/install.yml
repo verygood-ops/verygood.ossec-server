@@ -91,7 +91,7 @@
     - name: reload ossec
       shell: /var/ossec/bin/ossec-control reload
 
-    # pattern: "ossec-{{instance_id}}.{{zone_name}}"
+#     pattern: "ossec-{{instance_id}}.{{zone_name}}"
 #    - route53:
 #        command: create
 #        zone: "{{ vgg_dns_services.zone_name }}"
