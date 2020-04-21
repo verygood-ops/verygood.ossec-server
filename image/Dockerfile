@@ -17,9 +17,10 @@ WORKDIR /opt/ansible
 COPY . ./
 COPY vgs_rules.xml.j2 verygood.ossec-server/templates/vgs_rules.xml.j2
 
-EXPOSE 1514/udp 1515/tcp
+EXPOSE 1514/tcp 514/tcp
 
 RUN chmod 755 ./entry.bash
+RUN sed -i -e "s/\>udp\</\>tcp\</" verygood.ossec-server/templates/ossec.conf
 
 RUN ansible-playbook -i inventory -c local install.yml -vv
 

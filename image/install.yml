@@ -7,53 +7,6 @@
     ossec_syscheck_frequency: 3600 # one hour
     ossec_email_to: security-alerts+ossec-dev@vgs.io
     ossec_email_from: security-alerts+ossec-dev@vgs.io
-    monit_ossec_rules:
-      - "if does not exist for 3 cycles then restart"
-      - "if changed pid for 3 cycles then alert"
-    monit_services:
-      - name: "ossec-monitord"
-        type: process_by_name
-        target: "ossec-monitord"
-        start: "/var/ossec/bin/ossec-control start"
-        stop: "/var/ossec/bin/ossec-control stop"
-        rules: "{{ monit_ossec_rules }}"
-      - name: "ossec-logcollector"
-        type: process_by_name
-        target: "ossec-logcollector"
-        start: "/var/ossec/bin/ossec-control start"
-        stop: "/var/ossec/bin/ossec-control stop"
-        rules: "{{ monit_ossec_rules }}"
-      - name: "ossec-remoted"
-        type: process_by_name
-        target: "ossec-remoted"
-        start: "/var/ossec/bin/ossec-control start"
-        stop: "/var/ossec/bin/ossec-control stop"
-        rules: "{{ monit_ossec_rules }}"
-      - name: "ossec-syscheckd"
-        type: process_by_name
-        target: "ossec-syscheckd"
-        start: "/var/ossec/bin/ossec-control start"
-        stop: "/var/ossec/bin/ossec-control stop"
-        rules: "{{ monit_ossec_rules }}"
-      - name: "ossec-analysisd"
-        type: process_by_name
-        target: "ossec-analysisd"
-        start: "/var/ossec/bin/ossec-control start"
-        stop: "/var/ossec/bin/ossec-control stop"
-        rules: "{{ monit_ossec_rules }}"
-      - name: "ossec-execd"
-        type: process_by_name
-        target: "ossec-execd"
-        start: "/var/ossec/bin/ossec-control start"
-        stop: "/var/ossec/bin/ossec-control stop"
-        rules: "{{ monit_ossec_rules }}"
-      - name: "ossec-execd"
-        type: process_by_name
-        target: "ossec-execd"
-        start: "/var/ossec/bin/ossec-control start"
-        stop: "/var/ossec/bin/ossec-control stop"
-        rules: "{{ monit_ossec_rules }}"
-
 #  vars_files:
 #    - ../vars/common.yml
   roles:

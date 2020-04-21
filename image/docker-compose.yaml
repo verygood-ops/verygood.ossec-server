@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     image: quay.io/verygoodsecurity/ossec-server:${IMG_TAG}
     ports:
-      - "1515:1515"
-      - "1514:1514/udp"
+      - "514:514"
+      - "1514:1514"
     environment:
       - IMG_TAG=${IMG_TAG}
       - ANSIBLE_ENABLE_TASK_DEBUGGER=True
