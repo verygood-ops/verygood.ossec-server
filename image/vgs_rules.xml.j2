@@ -1,16 +1,4 @@
 {{ ansible_managed }}
-<group name="syslog,">
-    <!--
-      Mar  8 04:30:59 ip-10-6-2-57 suricata[9713]: {"timestamp":"2016-03-08T04:30:59.718012+0000","flow_id":139884807967088,"in_iface":"eth0","event_type":"dns","src_ip":"10.6.0.2","src_port":53,"dest_ip":"10.6.2.57","dest_port":42597,"proto":"
-      UDP","dns":{"type":"answer","id":63846,"rcode":"NOERROR","rrname":"newrelic.com","rrtype":"SOA","ttl":60}}
-    //-->
-    <rule id="64000" level="0">
-        <if_sid>1002</if_sid>
-        <options>no_email_alert</options>
-        <match>NOERROR</match>
-        <description>Ignore suricata NOERROR</description>
-    </rule>
-</group>
 <group name="syscheck,">
     <!--
     Make ossec to not fire alerts on logrotates

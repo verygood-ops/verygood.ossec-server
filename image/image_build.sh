@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-IMG_TAG=${IMG_TAG:-"0.0.4"}
+IMG_TAG=${IMG_TAG:-"0.0.5"}
 SERVICE=$(grep -A1 "services:" docker-compose.yaml|tail -n1|awk '{print $1}'|cut -d":" -f1)
 
 rm -rf verygood.ossec-server

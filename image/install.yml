@@ -19,9 +19,6 @@
         vars_provisioned: true
       tags: always
 
-    - name: Gather facts
-      action: ec2_facts
-
     - name: Copy rules template
       template:
         src: ./vgs_rules.xml.j2

@@ -1,6 +1,8 @@
-FROM ansible/ubuntu14.04-ansible
+FROM williamyeh/ansible:ubuntu18.04
+# ansible/ubuntu14.04-ansible
+
 RUN apt-get update &&\
-    apt-get install --no-install-recommends --no-install-suggests -y curl &&\
+    apt-get install --no-install-recommends --no-install-suggests -y curl cron iproute2 &&\
     rm -rf /var/lib/apt/lists/*
 ENV ANSIBLE_RETRY_FILES_ENABLED false
 ENV ENVANSIBLE_HOST_KEY_CHECKING false
@@ -15,7 +17,7 @@ RUN pip install netaddr &&\
 WORKDIR /opt/ansible
 
 COPY . ./
-RUN sed -i -e "2,13d" ./vgs_rules.xml.j2
+
 RUN sed -i -e "s/udp/tcp/" ./verygood.ossec-server/templates/ossec.conf
 
 EXPOSE 1514/tcp 514/tcp
