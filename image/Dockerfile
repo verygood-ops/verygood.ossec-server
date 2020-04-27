@@ -15,14 +15,14 @@ RUN pip install netaddr &&\
 WORKDIR /opt/ansible
 
 COPY . ./
-COPY vgs_rules.xml.j2 verygood.ossec-server/templates/vgs_rules.xml.j2
+RUN sed -i -e "2,13d" ./vgs_rules.xml.j2
+RUN sed -i -e "s/udp/tcp/" ./verygood.ossec-server/templates/ossec.conf
 
 EXPOSE 1514/tcp 514/tcp
 
 RUN chmod 755 ./entry.bash
-RUN sed -i -e "s/\>udp\</\>tcp\</" verygood.ossec-server/templates/ossec.conf
 
-RUN ansible-playbook -i inventory -c local install.yml -vv
+RUN ansible-playbook -i inventory -c local install.yml -vvv
 
 ENTRYPOINT ["./entry.bash"]
 

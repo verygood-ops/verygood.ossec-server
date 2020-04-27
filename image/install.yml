@@ -7,6 +7,8 @@
     ossec_syscheck_frequency: 3600 # one hour
     ossec_email_to: security-alerts+ossec-dev@vgs.io
     ossec_email_from: security-alerts+ossec-dev@vgs.io
+    ossec_version: 3.12.2
+    apt_ossec_version: "3.12.2-1"
 #  vars_files:
 #    - ../vars/common.yml
   roles:
@@ -20,13 +22,10 @@
     - name: Gather facts
       action: ec2_facts
 
-    - name: pwd
-      command: ls -la ./verygood.ossec-server
-
-    - name: Copy template
+    - name: Copy rules template
       template:
-        src: "./verygood.ossec-server/templates/vgs_rules.xml.j2"
-        dest: "/var/ossec/etc/rules/local_rules.xml"
+        src: ./vgs_rules.xml.j2
+        dest: /var/ossec/etc/rules/local_rules.xml
         owner: ossec
         group: ossec
         mode: 0640
