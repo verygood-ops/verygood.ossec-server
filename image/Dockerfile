@@ -1,7 +1,6 @@
 FROM williamyeh/ansible:ubuntu18.04
-# ansible/ubuntu14.04-ansible
 
-RUN apt-get update &&\
+RUN apt-get update && apt-get upgrade -y &&\
     apt-get install --no-install-recommends --no-install-suggests -y curl cron iproute2 &&\
     rm -rf /var/lib/apt/lists/*
 ENV ANSIBLE_RETRY_FILES_ENABLED false
