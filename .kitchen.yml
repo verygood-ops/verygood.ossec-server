@@ -16,7 +16,7 @@ platforms:
     driver_config:
       provision_command:
         - apt-get install -y python-netaddr
-      image: ubuntu:20.04
+      image: ubuntu:16.04
       platform: ubuntu
 
 suites:
