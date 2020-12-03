@@ -8,11 +8,11 @@ jobs:
       AWS_DEFAULT_REGION: us-west-2
     steps:
       - checkout
-      - run: 
+      - run:
           name: Install Dependencies
           command: |
             bundle install
-      - run: 
+      - run:
           name: Tests
           command: |
             kitchen test
