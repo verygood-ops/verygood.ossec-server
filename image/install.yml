@@ -1,0 +1,52 @@
+---
+- hosts: local
+  become: yes
+  vars:
+    dns_resolver: "{{ ansible_dns.nameservers | join (',') }}"
+    # OSSEC can't authenticate with an SMTP server, so don't think about using anything other than local SMTP.
+    ossec_syscheck_frequency: 3600 # one hour
+    ossec_email_to: security-alerts+ossec-dev@vgs.io
+    ossec_email_from: security-alerts+ossec-dev@vgs.io
+    ossec_version: 3.12.2
+    apt_ossec_version: "3.12.2-1"
+#  vars_files:
+#    - ../vars/common.yml
+  roles:
+    - { role: verygood.ossec-server }
+
+  tasks:
+    - set_fact:
+        vars_provisioned: true
+      tags: always
+
+    - name: Copy rules template
+      template:
+        src: ./vgs_rules.xml.j2
+        dest: /var/ossec/etc/rules/local_rules.xml
+        owner: ossec
+        group: ossec
+        mode: 0640
+
+    - name: reload ossec
+      shell: /var/ossec/bin/ossec-control reload
+
+    - name: Copy ossec-server agents cleanup script
+      template:
+        src: ./ossec-server-cleanup.sh
+        dest: /bin/ossec-server-cleanup.sh
+        owner: root
+        group: root
+        mode: 0744
+
+    - name: Add ossec-server agents cleanup script into cron
+      cron:
+        name: "ossec-server agents cleaner"
+        state: present
+        minute: "0"
+        hour: "12"
+        weekday: "6"
+        user: root
+        job: "/bin/ossec-server-cleanup.sh"
+
+  handlers:
+    - include: handlers/main.yml
