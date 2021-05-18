@@ -10,6 +10,7 @@ REPO_NAME=ossec-server
 REGION=${AWS_DEFAULT_REGION:-us-west-2}
 ACC_ID=$(aws sts get-caller-identity --query Account --output text)
 SERVICE=$(grep -A1 "services:" docker-compose.yaml|tail -n1|awk '{print $1}'|cut -d":" -f1)
+ossec_repo=verygood.ossec-server
 
 function check_repo_exists(){
   echo "Check the repo vgs/${REPO_NAME} exists if not create..."
@@ -19,12 +20,11 @@ function check_repo_exists(){
 }
 
 [[ -n $BUILD ]] && echo -e "\n Publishing container...\n" || \
-                   echo -e "\n Starting container...\n, run 'BUILD=1 bash $0' in case wanted to build & publish"
+                   echo -e "\n Starting container...\n run 'BUILD=1 bash $0' in case wanted to build & publish"
 [[ -n $REG ]] && export REGISTRY="quay.io/verygoodsecurity/${REPO_NAME}" || \
                  export REGISTRY="${ACC_ID}.dkr.ecr.${REGION}.amazonaws.com/vgs/${REPO_NAME}"; check_repo_exists
 
-rm -rf verygood.ossec-server
-git clone git@github.com:verygood-ops/verygood.ossec-server.git verygood.ossec-server
+rm -rf $ossec_repo; git clone git@github.com:verygood-ops/$ossec_repo.git $ossec_repo
 
 function publish() {
   if [ $stat -eq 0 ]; then
@@ -40,4 +40,4 @@ if [[ -n $BUILD ]]; then
     IMG_TAG=$IMG_TAG REGISTRY=$REGISTRY docker-compose -f docker-compose.yaml up
 fi
 
-rm -rf verygood.ossec-server
+rm -rf $ossec_repo
