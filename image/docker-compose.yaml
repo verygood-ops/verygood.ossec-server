@@ -5,13 +5,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: quay.io/verygoodsecurity/ossec-server:${IMG_TAG}
+    image: ${REGISTRY}:${IMG_TAG}
     ports:
       - "514:514"
       - "1514:1514"
     environment:
       - IMG_TAG=${IMG_TAG}
-      - ANSIBLE_ENABLE_TASK_DEBUGGER=True
     working_dir: /opt/ansible/
     entrypoint:
       - ./entry.bash
